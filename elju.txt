@@ -1,0 +1,105 @@
+CREATE TABLE [Преподаватель] (
+	КодПрепод int NOT NULL,
+	ФИО varchar(50) NOT NULL,
+  CONSTRAINT [PK_ПРЕПОДАВАТЕЛЬ] PRIMARY KEY CLUSTERED
+  (
+  [КодПрепод] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Класс] (
+	Номер int NOT NULL
+)
+GO
+CREATE TABLE [Ученики] (
+	КодУченика int NOT NULL,
+	ФИО varchar(30) NOT NULL,
+	Класс int NOT NULL,
+  CONSTRAINT [PK_УЧЕНИКИ] PRIMARY KEY CLUSTERED
+  (
+  [КодУченика] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Журнал] (
+	Ученик int NOT NULL,
+	Расписание int NOT NULL,
+	Оценка int NOT NULL
+)
+GO
+CREATE TABLE [Предметы] (
+	КодПредмета int NOT NULL,
+	Название varchar(15) NOT NULL,
+  CONSTRAINT [PK_ПРЕДМЕТЫ] PRIMARY KEY CLUSTERED
+  (
+  [КодПредмета] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Расписание] (
+	Дата datetime NOT NULL,
+	Класс int NOT NULL,
+	Предмет int NOT NULL,
+	Номер_урока int NOT NULL,
+	Журнал int NOT NULL,
+  CONSTRAINT [PK_РАСПИСАНИЕ] PRIMARY KEY CLUSTERED
+  (
+  [Дата] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Преподаватели_по_предметам] (
+	Преподаватель int NOT NULL,
+	Предмет int NOT NULL
+)
+GO
+
+ALTER TABLE [Класс] WITH CHECK ADD CONSTRAINT [Класс_fk0] FOREIGN KEY ([Номер]) REFERENCES [Ученики]([КодУченика])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Класс] CHECK CONSTRAINT [Класс_fk0]
+GO
+
+
+ALTER TABLE [Журнал] WITH CHECK ADD CONSTRAINT [Журнал_fk0] FOREIGN KEY ([Ученик]) REFERENCES [Ученики]([КодУченика])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Журнал] CHECK CONSTRAINT [Журнал_fk0]
+GO
+ALTER TABLE [Журнал] WITH CHECK ADD CONSTRAINT [Журнал_fk1] FOREIGN KEY ([Расписание]) REFERENCES [Расписание]([Журнал])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Журнал] CHECK CONSTRAINT [Журнал_fk1]
+GO
+
+
+ALTER TABLE [Расписание] WITH CHECK ADD CONSTRAINT [Расписание_fk0] FOREIGN KEY ([Класс]) REFERENCES [Класс]([Номер])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Расписание] CHECK CONSTRAINT [Расписание_fk0]
+GO
+ALTER TABLE [Расписание] WITH CHECK ADD CONSTRAINT [Расписание_fk1] FOREIGN KEY ([Предмет]) REFERENCES [Предметы]([КодПредмета])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Расписание] CHECK CONSTRAINT [Расписание_fk1]
+GO
+ALTER TABLE [Расписание] WITH CHECK ADD CONSTRAINT [Расписание_fk2] FOREIGN KEY ([Номер_урока]) REFERENCES []([])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Расписание] CHECK CONSTRAINT [Расписание_fk2]
+GO
+
+ALTER TABLE [Преподаватели_по_предметам] WITH CHECK ADD CONSTRAINT [Преподаватели_по_предметам_fk0] FOREIGN KEY ([Преподаватель]) REFERENCES [Преподаватель]([КодПрепод])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Преподаватели_по_предметам] CHECK CONSTRAINT [Преподаватели_по_предметам_fk0]
+GO
+ALTER TABLE [Преподаватели_по_предметам] WITH CHECK ADD CONSTRAINT [Преподаватели_по_предметам_fk1] FOREIGN KEY ([Предмет]) REFERENCES [Предметы]([КодПредмета])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Преподаватели_по_предметам] CHECK CONSTRAINT [Преподаватели_по_предметам_fk1]
+GO
